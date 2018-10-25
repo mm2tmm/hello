@@ -19,7 +19,7 @@ function getRows(q,callback)
             if (err)
                 callback(err,null);
             else
-                callback(null,result[0]);
+                callback(null,result);
 
         }
     );

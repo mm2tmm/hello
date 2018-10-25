@@ -1,11 +1,14 @@
-var site = require("./db");
+var db = require("./db");
 
-site.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,data){
+db.getRows('SELECT id,title FROM mm_mcontent4_sites where published=1',function(err,sites){
     if (err) {
-        // error handling code goes here
         console.log("ERROR : ",err);
     } else {
-        // code to execute on data retrieval
-        console.log("result from db is : ",data);
+        for (var i = 0; i < sites.length; i++) {
+            var site = sites[i];
+            console.log("start site : " + site.title);
+
+
+        }
     }
 });
