@@ -1,16 +1,14 @@
-//
-// changed for test git
-
-// changed in mmlogin
-
-//12345
-
-//hava change without idea folder?
-
-
 var mysql = require('mysql');
-var connection = require("./connection");
+//var connection = require("./connection");
 
+//var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+    database: "engine"
+});
 
 function getAllSites(callback)
 {
