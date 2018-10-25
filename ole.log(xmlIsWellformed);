@@ -1,0 +1,41 @@
+[33mcommit cf73c328573b2571b804dea9f27e8615ef92812f[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: mm <mm2tmm@gmail.com>
+Date:   Thu Oct 25 18:30:11 2018 +0330
+
+    ok - add simple scrape
+
+[33mcommit 2eccaf50462b6335481479b33bd0e47d79e37a3f[m[33m ([m[1;31morgin/master[m[33m)[m
+Author: mm <mm2tmm@gmail.com>
+Date:   Thu Oct 25 18:07:29 2018 +0330
+
+    ok - get all pages
+
+[33mcommit 20bc976bb27e434f35bb4765b04ff93418cce629[m
+Author: mm <mm2tmm@gmail.com>
+Date:   Thu Oct 25 18:01:35 2018 +0330
+
+    ok - get all sites
+
+[33mcommit f880e72ddad35891460037d0a5d98be7852d899a[m
+Author: mm <mm2tmm@gmail.com>
+Date:   Thu Oct 25 17:10:56 2018 +0330
+
+    convert site to a general helper
+
+[33mcommit a40f0216e79feb2c800006e7c2f5399a59dc96be[m
+Author: mm <mm2tmm@gmail.com>
+Date:   Thu Oct 25 17:01:02 2018 +0330
+
+    try start seperate connection
+
+[33mcommit 8079b9b8679aab916acff7833ebefd7d56da8409[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: mm <mm2tmm@gmail.com>
+Date:   Thu Oct 25 15:07:48 2018 +0330
+
+    simple connection in site.js
+
+[33mcommit 847e78e89ad078922c610b30c2d939c616f33579[m[33m ([m[1;31mstash/master[m[33m)[m
+Author: mm <mm2tmm@gmail.com>
+Date:   Thu Oct 25 14:57:25 2018 +0330
+
+    first commit

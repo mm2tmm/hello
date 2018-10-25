@@ -1,32 +1,45 @@
 var db = require("./db");
 const puppeteer = require('puppeteer');
+var xpath = require('xpath')
+    , dom = require('xmldom').DOMParser;
 
-let scrape = async () => {
+
+let scrape = async (url,xpathStr) => {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
 
-    await page.goto('http://books.toscrape.com/');
-    await page.click('#default > div > div > div > div > section > div:nth-child(2) > ol > li:nth-child(1) > article > div.image_container > a > img');
+    await page.goto(url);
     await page.waitFor(1000);
 
-    const result = await page.evaluate(() => {
-        let title = document.querySelector('h1').innerText;
-        let price = document.querySelector('.price_color').innerText;
+    let bodyHTML = await page.evaluate(() => document.body.innerHTML);
 
-        return {
-            title,
-            price
-        }
+    var doc = new dom().parseFromString(bodyHTML)
+    var nodes = xpath.select(xpathStr, doc)
 
-    });
+    //console.log("Node: " + nodes[0].toString())
+
+    var node1 = nodes[0].toString();
+    var nodes = nodes.toString();
+
+
+    // const text = await page.evaluate((xpathStr) => {
+    //     const featureArticle = document
+    //         .evaluate(
+    //             xpathStr,
+    //             document,
+    //             null,
+    //             XPathResult.FIRST_ORDERED_NODE_TYPE,
+    //             null
+    //         )
+    //         .singleNodeValue;
+    //
+    //     return featureArticle;
+    // });
+
 
     browser.close();
-    return result;
+    return node1;
 };
-
-scrape().then((value) => {
-    console.log(value); // Success!
-});
 
 //get all sites
 db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sites){
@@ -45,8 +58,11 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                 } else {
                     for (var i = 0; i < pages.length; i++) {
                         var page = pages[i];
-                        console.log("start page : " + page.title);
+                        console.log("start page : " + page.title + " url: "+page.url);
 
+                        scrape(page.url , page.xpath_parts).then((value) => {
+                            console.log(value); // Success!
+                        });
 
                         //end of each page.
                     }
