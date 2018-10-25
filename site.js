@@ -1,5 +1,7 @@
 //
 // changed for test git
+
+// changed in mmlogin
 var mysql = require('mysql');
 var connection = require("./connection");
 
