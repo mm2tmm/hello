@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 //var connection = require("./connection");
 
-var mysql = require('mysql');
 
 //try seperate connection
 
@@ -12,9 +11,9 @@ var connection = mysql.createConnection({
     database: "engine"
 });
 
-function getAllSites(callback)
+function getRows(q,callback)
 {
-    connection.query('SELECT * FROM mm_mcontent4_sites where published=1',
+    connection.query(q,
         function(err, result)
         {
             if (err)
@@ -26,5 +25,5 @@ function getAllSites(callback)
     );
 }
 
-module.exports.getAllSites = getAllSites;
+module.exports.getRows = getRows;
 
