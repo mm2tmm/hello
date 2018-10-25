@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 var xpath = require('xpath')
     , dom = require('xmldom').DOMParser;
 
-
+//ok
 let scrape = async (url,xpathStr) => {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
