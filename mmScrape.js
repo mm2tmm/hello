@@ -1,19 +1,26 @@
 const puppeteer = require('puppeteer');
 
-async function getHtml(url, callback)
+async function getTags(url, callback)
 {
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
 
     await page.goto(url);
-    await page.waitFor(1000);
 
-    let bodyHTML = await page.evaluate(() => document.body.innerHTML);
+    page.evaluate(_ => {
+        window.scrollBy(0, document.body.scrollHeight);
+    });
+
+    await page.waitFor(500);
+
+    let body = await page.evaluate(() => document.body.innerHTML);
+    let head = await page.evaluate(() => document.head.innerHTML);
+
+    let tags = await [ head , body ];
 
     browser.close();
 
-    //return bodyHTML;
-    callback(bodyHTML);
+    callback(tags);
 }
 
-module.exports.getHtml = getHtml;
+module.exports.getTags = getTags;

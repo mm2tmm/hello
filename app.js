@@ -24,12 +24,11 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                         var page = pages[i];
                         console.log("start page : " + page.title + " url: "+page.url);
 
-                        var body1 ="temp body1 init";
+                        mmScrapeLib.getTags(page.url , function (tags) {
+                            //console.log(tags);
+                            //console.log("body:"+tags[1]);
 
-                        mmScrapeLib.getHtml(page.url , function (a) {
-                            console.log(a);
                         });
-
                     }
                 }
             });
