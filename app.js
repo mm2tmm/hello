@@ -25,21 +25,11 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                         console.log("start page : " + page.title + " url: "+page.url);
 
                         var body1 ="temp body1 init";
-                        var body2 ="temp body2 init";
 
-                        body2 = mmScrapeLib.scrape(page.url , body1);
-                        console.log("body1 from mmScrape : " + body1);
+                        mmScrapeLib.getHtml(page.url , function (a) {
+                            console.log(a);
+                        });
 
-                        console.log("body2 from mmScrape : " + body2);
-                        //     .then((value) => {
-                        //     console.log(value); // Success!
-                        // });
-
-                        // scrape(page.url , page.xpath_parts).then((value) => {
-                        //     console.log(value); // Success!
-                        // });
-
-                        //end of each page.
                     }
                 }
             });

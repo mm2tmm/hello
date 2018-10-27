@@ -1,32 +1,19 @@
 const puppeteer = require('puppeteer');
 
-function scrape(url, callback)
+async function getHtml(url, callback)
 {
-    let url1 = url;
-    url1 = url;
+    const browser = await puppeteer.launch({headless: false});
+    const page = await browser.newPage();
 
-    //let callback1 = callback;
-    //let callback1;
+    await page.goto(url);
+    await page.waitFor(1000);
 
-    let as = async (url, callback) => {
-        const browser = await puppeteer.launch({headless: false});
-        const page = await browser.newPage();
+    let bodyHTML = await page.evaluate(() => document.body.innerHTML);
 
-        await page.goto(url);
-        await page.waitFor(1000);
+    browser.close();
 
-        let bodyHTML = await page.evaluate(() => document.body.innerHTML);
-
-        browser.close();
-
-        //return bodyHTML;
-        callback(bodyHTML);
-    };
-
-    //callback1 = "for test";
-    ass = as(url , callback);
-    return ass.then();
+    //return bodyHTML;
+    callback(bodyHTML);
 }
 
-
-module.exports.scrape = scrape;
+module.exports.getHtml = getHtml;
