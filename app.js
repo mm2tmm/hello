@@ -1,5 +1,8 @@
+//config
+const mmApp = "engine";
+
 var db = require("./db");
-const puppeteer = require('puppeteer');
+
 var xpath = require('xpath')
     , dom = require('xmldom').DOMParser;
 

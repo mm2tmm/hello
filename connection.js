@@ -1,10 +1,13 @@
 var mysql = require('mysql');
 
-var connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "engine"
-});
+function connect(callback) {
+    let connection = mysql.createConnection({
+        host: "localhost",
+        user: "root",
+        password: "",
+        database: "engine"
+    });
+    callback(connection);
+}
 
-module.exports.connection = connection;
+module.exports.connect = connect;
