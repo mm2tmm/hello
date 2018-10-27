@@ -41,9 +41,16 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                             else
                                             {
                                                 parts = node;
-                                                console.log('parts: '+parts);
+                                                console.log('parts : '+parts);
+                                                console.log('parts length : '+parts.length);
 
-                                                //fetch parts
+                                                //fetch links data
+                                                for (var l = 0; l < parts.length; l++)
+                                                {
+                                                    let part = parts[l];
+                                                    console.log('part '+l+' : '+part);
+                                                }
+
                                             }
                                         });
                                     }
