@@ -14,6 +14,8 @@ async function getTags(url, callback)
 
         await page.waitFor(500);
 
+        //await page.screenshot({path: 'lifemag.png'});
+
         let body = await page.evaluate(() => document.body.innerHTML);
         let head = await page.evaluate(() => document.head.innerHTML);
 
