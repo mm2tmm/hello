@@ -31,11 +31,18 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                             else
                             {
                                 //tetch mofid part of page.
-                                let body = rags[1];
+                                let body = tags[1];
                                 console.log("body:"+body);
 
+                                var doc = new dom().parseFromString(body)
+                                var nodes = xpath.select(page.xpath_parts, doc)
 
+                                //console.log("Node: " + nodes[0].toString())
 
+                                var node1 = nodes[0].toString();
+                                var nodes = nodes.toString();
+
+                                console.log("mofid part of page:"+nodes);
 
                             }
                         });
