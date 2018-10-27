@@ -41,14 +41,45 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                             else
                                             {
                                                 parts = node;
-                                                console.log('parts : '+parts);
-                                                console.log('parts length : '+parts.length);
+                                                //console.log('parts : '+parts);
+                                                //console.log('parts length : '+parts.length);
 
                                                 //fetch links data
                                                 for (var l = 0; l < parts.length; l++)
                                                 {
                                                     let part = parts[l];
                                                     console.log('part '+l+' : '+part);
+
+                                                    let link_title_top ="";
+
+                                                    if(page.xpath_link_title_top != "")
+                                                    {
+                                                        xpath.getNodes(part.toString(), page.xpath_link_title_top,
+                                                            function (err,title_top)
+                                                            {
+                                                                if(err){console.log("getNodes xpath_link_title_top ERROR : ",err);}
+                                                                else {link_title_top = title_top;}
+                                                            }
+                                                        );
+                                                    }
+
+                                                    let link_title="";
+
+                                                    if(page.xpath_link_title != "")
+                                                    {
+                                                        xpath.getNodes(part.toString(), page.xpath_link_title,
+                                                            function (err,title)
+                                                            {
+                                                                if(err){console.log("getNodes xpath_link_title ERROR : ",err);}
+                                                                else {link_title = title;}
+                                                            }
+                                                        );
+                                                    }
+
+                                                    link_title_top = link_title_top.toString().trim();
+                                                    console.log("title top: "+link_title_top);
+                                                    link_title = link_title.toString().trim();
+                                                    console.log("title: "+link_title);
                                                 }
 
                                             }
