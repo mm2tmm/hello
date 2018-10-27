@@ -30,8 +30,13 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                             }
                             else
                             {
-                                //console.log(tags);
-                                console.log("body:"+tags[1]);
+                                //tetch mofid part of page.
+                                let body = rags[1];
+                                console.log("body:"+body);
+
+
+
+
                             }
                         });
                     }
