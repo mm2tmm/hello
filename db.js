@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 var connection = require("./connection");
 
-function getRows(q,callback)
+function getRows(myQuery,callback)
 {
      connection.connect(function (con) {
-         con.query(q,
+         con.query(myQuery,
              function(err, result)
              {
                  if (err)
@@ -14,7 +14,6 @@ function getRows(q,callback)
              }
          );
     });
-
 }
 
 module.exports.getRows = getRows;

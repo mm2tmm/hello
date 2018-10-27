@@ -1,5 +1,5 @@
 //config
-const mmApp = "engine";
+
 
 var db = require("./db");
 
