@@ -1,6 +1,7 @@
 var db = require("./db");
 var mmScrapeLib = require("./mmScrape");
 var xpath = require("./xpath");
+var url = require("./url");
 
 //get all sites
 db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sites){
@@ -51,7 +52,6 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                     console.log('part '+l+' : '+part);
 
                                                     let link_title_top ="";
-
                                                     if(page.xpath_link_title_top != "")
                                                     {
                                                         xpath.getNodes(part.toString(), page.xpath_link_title_top,
@@ -62,9 +62,10 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                             }
                                                         );
                                                     }
+                                                    link_title_top = link_title_top.toString().trim();
+
 
                                                     let link_title="";
-
                                                     if(page.xpath_link_title != "")
                                                     {
                                                         xpath.getNodes(part.toString(), page.xpath_link_title,
@@ -75,11 +76,63 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                             }
                                                         );
                                                     }
-
-                                                    link_title_top = link_title_top.toString().trim();
-                                                    console.log("title top: "+link_title_top);
                                                     link_title = link_title.toString().trim();
+
+                                                    let link_desc="";
+                                                    if(page.xpath_desc != "")
+                                                    {
+                                                        xpath.getNodes(part.toString(), page.xpath_desc,
+                                                            function (err,desc)
+                                                            {
+                                                                if(err){console.log("getNodes xpath_desc ERROR : ",err);}
+                                                                else {link_desc = desc;}
+                                                            }
+                                                        );
+                                                    }
+                                                    link_desc = link_desc.toString().trim();
+
+                                                    let link_img_src="";
+                                                    if(page.xpath_img_src != "")
+                                                    {
+                                                        xpath.getNodeValue(part.toString(), page.xpath_img_src,
+                                                            function (err,img_src)
+                                                            {
+                                                                if(err){console.log("getNodes xpath_desc ERROR : ",err);}
+                                                                else {link_img_src = img_src;}
+                                                            }
+                                                        );
+                                                    }
+                                                    link_img_src = link_img_src.toString().trim();
+
+                                                    let link_href="";
+                                                    if(page.xpath_link_href != "")
+                                                    {
+                                                        xpath.getNodeValue(part.toString(), page.xpath_link_href,
+                                                            function (err,href)
+                                                            {
+                                                                if(err){console.log("getNodes xpath_desc ERROR : ",err);}
+                                                                else {link_href = href;}
+                                                            }
+                                                        );
+                                                    }
+                                                    let link_href_fixed ="";
+
+                                                    link_href = link_href.toString().trim();
+
+                                                    url.fixUrl(link_href,
+                                                        site.urlbase,
+                                                        function (fixed) {
+                                                        link_href_fixed = fixed;
+                                                    });
+
+
+
+                                                    console.log("title top: "+link_title_top);
                                                     console.log("title: "+link_title);
+                                                    console.log("desc: "+link_desc);
+                                                    console.log("img_src: "+link_img_src);
+                                                    console.log("href: "+link_href);
+                                                    console.log("href fixed: "+link_href_fixed);
                                                 }
 
                                             }
