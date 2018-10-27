@@ -24,10 +24,15 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                         var page = pages[i];
                         console.log("start page : " + page.title + " url: "+page.url);
 
-                        mmScrapeLib.getTags(page.url , function (tags) {
-                            //console.log(tags);
-                            //console.log("body:"+tags[1]);
-
+                        mmScrapeLib.getTags(page.url , function (err,tags) {
+                            if (err) {
+                                console.log(err);
+                            }
+                            else
+                            {
+                                //console.log(tags);
+                                console.log("body:"+tags[1]);
+                            }
                         });
                     }
                 }
