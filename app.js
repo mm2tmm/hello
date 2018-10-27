@@ -3,43 +3,7 @@ const puppeteer = require('puppeteer');
 var xpath = require('xpath')
     , dom = require('xmldom').DOMParser;
 
-//ok
-let scrape = async (url,xpathStr) => {
-    const browser = await puppeteer.launch({headless: false});
-    const page = await browser.newPage();
-
-    await page.goto(url);
-    await page.waitFor(1000);
-
-    let bodyHTML = await page.evaluate(() => document.body.innerHTML);
-
-    var doc = new dom().parseFromString(bodyHTML)
-    var nodes = xpath.select(xpathStr, doc)
-
-    //console.log("Node: " + nodes[0].toString())
-
-    var node1 = nodes[0].toString();
-    var nodes = nodes.toString();
-
-
-    // const text = await page.evaluate((xpathStr) => {
-    //     const featureArticle = document
-    //         .evaluate(
-    //             xpathStr,
-    //             document,
-    //             null,
-    //             XPathResult.FIRST_ORDERED_NODE_TYPE,
-    //             null
-    //         )
-    //         .singleNodeValue;
-    //
-    //     return featureArticle;
-    // });
-
-
-    browser.close();
-    return node1;
-};
+var mmScrapeLib = require("./mmScrape");
 
 //get all sites
 db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sites){
@@ -60,9 +24,20 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                         var page = pages[i];
                         console.log("start page : " + page.title + " url: "+page.url);
 
-                        scrape(page.url , page.xpath_parts).then((value) => {
-                            console.log(value); // Success!
-                        });
+                        var body1 ="temp body1 init";
+                        var body2 ="temp body2 init";
+
+                        body2 = mmScrapeLib.scrape(page.url , body1);
+                        console.log("body1 from mmScrape : " + body1);
+
+                        console.log("body2 from mmScrape : " + body2);
+                        //     .then((value) => {
+                        //     console.log(value); // Success!
+                        // });
+
+                        // scrape(page.url , page.xpath_parts).then((value) => {
+                        //     console.log(value); // Success!
+                        // });
 
                         //end of each page.
                     }
