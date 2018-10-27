@@ -1,12 +1,6 @@
-//config
-
-
 var db = require("./db");
-
-var xpath = require('xpath')
-    , dom = require('xmldom').DOMParser;
-
 var mmScrapeLib = require("./mmScrape");
+var xpath = require("./xpath");
 
 //get all sites
 db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sites){
@@ -37,15 +31,9 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                 let body = tags[1];
                                 console.log("body:"+body);
 
-                                var doc = new dom().parseFromString(body)
-                                var nodes = xpath.select(page.xpath_parts, doc)
-
-                                //console.log("Node: " + nodes[0].toString())
-
-                                var node1 = nodes[0].toString();
-                                var nodes = nodes.toString();
-
-                                console.log("mofid part of page:"+nodes);
+                                xpath.getNodes(body,page.xpath_mofid,function (mofid) {
+                                    console.log('mofid: '+mofid);
+                                })
 
                             }
                         });
