@@ -14,27 +14,40 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
 
             //get all pages
             db.getRows('SELECT * FROM mm_mcontent4_pages where site='+site.id ,function(err,pages){
-                if (err) {
-                    console.log("ERROR : ",err);
-                } else {
+                if (err) {console.log("ERROR : ",err);} else {
                     for (var i = 0; i < pages.length; i++) {
                         var page = pages[i];
                         console.log("start page : " + page.title + " url: "+page.url);
 
                         mmScrapeLib.getTags(page.url , function (err,tags) {
-                            if (err) {
-                                console.log(err);
-                            }
+                            if (err) {console.log("getTags ERROR : ",err);}
                             else
                             {
-                                //tetch mofid part of page.
                                 let body = tags[1];
-                                console.log("body:"+body);
 
-                                xpath.getNodes(body,page.xpath_mofid,function (mofid) {
-                                    console.log('mofid: '+mofid);
-                                })
+                                //tetch mofid part of page.
+                                let mofid;
+                                xpath.getNodes(body,page.xpath_mofid,function (err , node) {
+                                    if(err){console.log("getNodes xpath_mofid ERROR : ",err);}
+                                    else
+                                    {
+                                        mofid = node;
+                                        console.log('mofid: '+mofid);
 
+                                        //fetch parts
+                                        let parts;
+                                        xpath.getNodes(body,page.xpath_parts,function (err , node) {
+                                            if(err){console.log("getNodes xpath_parts ERROR : ",err);}
+                                            else
+                                            {
+                                                parts = node;
+                                                console.log('parts: '+parts);
+
+                                                //fetch parts
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
                     }
