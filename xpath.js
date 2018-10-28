@@ -27,6 +27,5 @@ function getNodeValue(html,thisXpath,callback)
     }
 }
 
-
 module.exports.getNodes = getNodes;
 module.exports.getNodeValue = getNodeValue;

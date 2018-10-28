@@ -1,10 +1,12 @@
 var db = require("./db");
-var mmScrapeLib = require("./mmScrape");
+var config = require("./config");
+var mmScrape = require("./mmScrape");
 var xpath = require("./xpath");
 var url = require("./url");
+var hyperlink = require("./link");
 
 //get all sites
-db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sites){
+db.getRows('SELECT * FROM '+ config.pref +'_mcontent4_sites where published=1',function(err,sites){
     if (err) {
         console.log("ERROR : ",err);
     } else {
@@ -14,21 +16,22 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
 
 
             //get all pages
-            db.getRows('SELECT * FROM mm_mcontent4_pages where site='+site.id ,function(err,pages){
+            db.getRows('SELECT * FROM '+ config.pref +'_mcontent4_pages where site='+site.id ,function(err,pages){
                 if (err) {console.log("ERROR : ",err);} else {
-                    for (var i = 0; i < pages.length; i++) {
+                    for (var i = 0; i < pages.length; i++)
+                    {
                         var page = pages[i];
                         console.log("start page : " + page.title + " url: "+page.url);
 
-                        mmScrapeLib.getTags(page.url , function (err,tags) {
+                        mmScrape.getTags(page.url , function (err,tags) {
                             if (err) {console.log("getTags ERROR : ",err);}
                             else
                             {
-                                let body = tags[1];
+                                let html = tags[0];
 
                                 //tetch mofid part of page.
                                 let mofid;
-                                xpath.getNodeValue(body,page.xpath_mofid,function (err , node) {
+                                xpath.getNodeValue(html,page.xpath_mofid,function (err , node) {
                                     if(err){console.log("getNodes xpath_mofid ERROR : ",err);}
                                     else
                                     {
@@ -37,7 +40,7 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
 
                                         //fetch parts
                                         let parts;
-                                        xpath.getNodes(body,page.xpath_parts,function (err , node) {
+                                        xpath.getNodes(html,page.xpath_parts,function (err , node) {
                                             if(err){console.log("getNodes xpath_parts ERROR : ",err);}
                                             else
                                             {
@@ -103,6 +106,10 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                         );
                                                     }
                                                     link_img_src = link_img_src.toString().trim();
+                                                    let link_img_src_fixed ="";
+
+                                                    url.fixUrl(link_img_src,site.urlbase,function (fixed) {
+                                                        link_img_src_fixed = fixed;});
 
                                                     let link_href="";
                                                     if(page.xpath_link_href != "")
@@ -115,32 +122,48 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                             }
                                                         );
                                                     }
+                                                    link_href = link_href.toString().trim();
                                                     let link_href_fixed ="";
 
-                                                    link_href = link_href.toString().trim();
+                                                    url.fixUrl(link_href,site.urlbase,function (fixed) {
+                                                        link_href_fixed = fixed;});
 
-                                                    url.fixUrl(link_href,
-                                                        site.urlbase,
-                                                        function (fixed) {
-                                                        link_href_fixed = fixed;
-                                                    });
-
-
-
-                                                    console.log("title top: "+link_title_top);
+                                                    // console.log("title top: "+link_title_top);
                                                     console.log("title: "+link_title);
-                                                    console.log("desc: "+link_desc);
-                                                    console.log("img_src: "+link_img_src);
-                                                    console.log("href: "+link_href);
-                                                    console.log("href fixed: "+link_href_fixed);
-                                                }
+                                                    // console.log("desc: "+link_desc);
+                                                    // console.log("img_src: "+link_img_src);
+                                                    // console.log("img_src fixed: "+link_img_src_fixed);
+                                                    // console.log("href: "+link_href);
+                                                    // console.log("href fixed: "+link_href_fixed);
 
+                                                    if(link_title!="" & link_href!="")
+                                                    {
+                                                        //var thisLink = new hyperlink.Link(page.catid,site.id,page.id,link_title_top,link_title,link_href_fixed,link_href_fixed,page.xpath_img_src2,link_desc,site.language);
+                                                        //thisLink.fire();
+
+                                                        // mmScrape.getTags(link_href_fixed,function (err,tags) {
+                                                        //     if(err){console.log("getTags urlreal ERROR : ",err);}
+                                                        //     else {
+                                                        //         this.tags = tags;
+                                                        //
+                                                        //         console.log("GET TAGS");
+                                                        //         //this.set_urlimg2();
+                                                        //     }
+                                                        // });
+                                                        //
+                                                        // setTimeout(function () {
+                                                        //     console.log("1000 ms delay!");
+                                                        // },10000);
+                                                    }
+                                                }
                                             }
                                         });
                                     }
                                 });
                             }
                         });
+
+                        console.log("now go to next page!");
                     }
                 }
             });

@@ -14,15 +14,19 @@ async function getTags(url, callback)
 
         await page.waitFor(500);
 
+        //snapshot!
         //await page.screenshot({path: 'lifemag.png'});
 
+        let html = await page.content();
         let body = await page.evaluate(() => document.body.innerHTML);
         let head = await page.evaluate(() => document.head.innerHTML);
 
-        let tags = await [head, body];
+        let tags = await [html , head , body];
 
         browser.close();
+
         callback(null,tags);
+
     } catch(error) {
         callback(error,null);
     }
