@@ -28,7 +28,7 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
 
                                 //tetch mofid part of page.
                                 let mofid;
-                                xpath.getNodes(body,page.xpath_mofid,function (err , node) {
+                                xpath.getNodeValue(body,page.xpath_mofid,function (err , node) {
                                     if(err){console.log("getNodes xpath_mofid ERROR : ",err);}
                                     else
                                     {
@@ -54,7 +54,7 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                     let link_title_top ="";
                                                     if(page.xpath_link_title_top != "")
                                                     {
-                                                        xpath.getNodes(part.toString(), page.xpath_link_title_top,
+                                                        xpath.getNodeValue(part.toString(), page.xpath_link_title_top,
                                                             function (err,title_top)
                                                             {
                                                                 if(err){console.log("getNodes xpath_link_title_top ERROR : ",err);}
@@ -68,7 +68,7 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                     let link_title="";
                                                     if(page.xpath_link_title != "")
                                                     {
-                                                        xpath.getNodes(part.toString(), page.xpath_link_title,
+                                                        xpath.getNodeValue(part.toString(), page.xpath_link_title,
                                                             function (err,title)
                                                             {
                                                                 if(err){console.log("getNodes xpath_link_title ERROR : ",err);}
@@ -79,7 +79,7 @@ db.getRows('SELECT * FROM mm_mcontent4_sites where published=1',function(err,sit
                                                     link_title = link_title.toString().trim();
 
                                                     let link_desc="";
-                                                    if(page.xpath_desc != "")
+                                                    if(page.getNodeValue != "")
                                                     {
                                                         xpath.getNodes(part.toString(), page.xpath_desc,
                                                             function (err,desc)
